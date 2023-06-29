@@ -1,0 +1,28 @@
+.footer {
+  margin-top: 8rem;
+  background-color: #f1f1f1;
+  display: flex;
+  justify-content: space-between;
+  padding-inline: 2rem;
+  padding-block: 1rem;
+}
+
+.footer_links {
+  display: flex;
+  column-gap: 10rem;
+}
+
+.footer ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  row-gap: 1rem;
+}
+
+.footer ul li {
+  font-size: 1.2rem;
+}
+
+.footer ul li a {
+  color: #59607c;
+}
