@@ -91,6 +91,17 @@
   padding: 2.5rem;
   border-radius: 3rem;
   gap: 2rem;
+  color: #fff;
+}
+
+.modal_content svg {
+  color: #fff;
+  font-size: 2rem;
+}
+
+.btn_cart svg {
+  color: #000 !important;
+  font-size: 2rem;
 }
 
 .modal_head {

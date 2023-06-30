@@ -5,6 +5,7 @@ import {
   BiPlus,
   BiTrash,
 } from "react-icons/bi";
+
 import { Header } from "../../components";
 import styles from "../../styles/Cart.module.css";
 

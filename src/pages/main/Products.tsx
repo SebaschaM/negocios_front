@@ -1,118 +1,62 @@
-import { BiPlus } from "react-icons/bi";
-import { Footer, Header } from "../../components";
-import styles from "../../styles/Products.module.css";
-import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
+import { BiChevronRight, BiMinus, BiPlus } from "react-icons/bi";
+import { useAtom } from "jotai";
+import { ToastContainer, toast } from "react-toastify";
+
+import { CardProduct, Footer, Header } from "../../components";
 import useFetch from "../../hook/useFetch";
+import { Category, Product } from "../../interfaces";
+import { modalProductAtom } from "../../store/modalProduct";
+import styles from "../../styles/Products.module.css";
+import { addToCartAtom, cartAtom } from "../../store/cartProducts";
+import { OrderCart } from "../../interfaces/CartProduct";
 
 function Products() {
-  interface Product {
-    idProduct: number;
-    name: string;
-    description: string;
-    url: string;
-    price: number;
-    stock: number;
-    category_id: number;
-  }
-
-  interface Category {
-    idCategory: number;
-    name: string;
-  }
-
-  const { getCategoryList, getListProducts, getDetailProduct } = useFetch();
+  const { getCategoryList, getListProducts } = useFetch();
+  const [cart, setCart] = useAtom(cartAtom);
+  const addToCart = useAtom(addToCartAtom)[1];
   const [category, setCategory] = useState<Category[]>([]);
   const [products, setProducts] = useState<Product[]>([]);
-  const [showModalProduct, setShowModalProduct] = useState(false);
-  const [productData, setProductData] = useState<Product | null>(null);
+  const [modalProduct, setModalProduct] = useAtom(modalProductAtom);
   const [modalCount, setModalCount] = useState(1);
-  const [count, setCount] = useState(1);
-
-  const handleListCategories = async () => {
-    const categories = await getCategoryList();
-    //setProducts(data);
-    setCategory(categories);
-  };
-
-  const handleDetailProduct = async (productId: number) => {
-    try {
-      const data = await getDetailProduct(productId.toString());
-      setProductData(data[0]);
-      console.log(data[0]);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  /*
-  const getCartItemCount = (productId: string): number => {
-    const cartItems: { id: string; quantity: number }[] = JSON.parse(
-      localStorage.getItem("cart") || "[]"
-    );
-    const existingProduct = cartItems.find((item) => item.id === productId);
-    return existingProduct ? existingProduct.quantity : 0;
-  };
-
-  const addToCart = (selectedProduct: Product) => {
-    // Obtener el carrito actual del localStorage
-    const cartItems = JSON.parse(localStorage.getItem("cart")) || [];
-
-    const existingProduct = cartItems.find(
-      (item) => item.id === selectedProduct.id
-    );
-
-    if (existingProduct) {
-      // Si el producto existe, incrementar la cantidad
-      if (existingProduct.quantity + modalCountValue <= selectedProduct.stock) {
-        existingProduct.quantity += modalCountValue;
-      } else {
-        // Mostrar mensaje de error o realizar alguna acción adecuada cuando se excede el stock
-        console.log("No se puede agregar más del stock máximo");
-        return; // Salir de la función sin actualizar el carrito
-      }
-    } else {
-      const productToAdd = {
-        id: selectedProduct.id,
-        name: selectedProduct.name,
-        price: selectedProduct.price,
-        quantity:
-          modalCountValue <= selectedProduct.stock
-            ? modalCountValue
-            : selectedProduct.stock,
-      };
-
-      cartItems.push(productToAdd);
-    }
-
-    // Guardar el carrito actualizado en el localStorage
-    localStorage.setItem("cart", JSON.stringify(cartItems));
-
-    // Cerrar el modal y reiniciar el contador
-    setShowModalProduct(false);
-    setModalCount(1);
-  };
-
-  // Variable para almacenar el valor actual de modalCount
-  const modalCountValue = modalCount;
-*/
-  const handleListProducts = async () => {
-    try {
-      const data = await getListProducts();
-      setProducts(data);
-      console.log("Productos por categoría:", data);
-    } catch (error) {
-      console.error(
-        "Error al obtener la lista de productos por categoría:",
-        error
-      );
-    }
-  };
+  const notify = () =>
+    toast.success("Producto agregado al carrito", {
+      position: "top-right",
+      autoClose: 3000,
+      hideProgressBar: true,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "colored",
+    });
 
   useEffect(() => {
     handleListCategories();
     handleListProducts();
   }, []);
+
+  const handleListCategories = async () => {
+    const categories = await getCategoryList();
+    setCategory(categories);
+  };
+
+  const handleListProducts = async () => {
+    const data = await getListProducts();
+    setProducts(data);
+  };
+
+  const handleAddToCart = (product: Product) => {
+    const order: OrderCart = {
+      product_id: product.idProduct,
+      product_url: product.url,
+      product_name: product.name,
+      quantity: 1,
+      subtotal: product.price,
+    };
+    addToCart(order);
+    notify();
+  };
 
   return (
     <>
@@ -126,94 +70,58 @@ function Products() {
         {category.map((category) => (
           <div className={styles.cards_container} key={category.idCategory}>
             <h2>{category.name}</h2>
-
             <div className={styles.cards}>
               {products
                 .filter(
                   (product) => product.category_id === category.idCategory
                 )
                 .map((product) => (
-                  <div
-                    className={styles.card}
-                    key={product.idProduct}
-                    onClick={(e) => {
-                      setShowModalProduct(true);
-                      handleDetailProduct(product.idProduct);
-                    }}
-                  >
-                    <img src={product.url} alt="producto" />
-                    <Link to="">
-                      <p className={styles.card_name_product}>{product.name}</p>
-                    </Link>
-                    <div
-                      className={styles.card_data}
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        const newCount = count;
-                        if (newCount <= product.stock) {
-                          //addToCart(product);
-                          setCount(newCount);
-                        } else {
-                          console.log(
-                            "No se puede agregar más del stock máximo"
-                          );
-                        }
-                      }}
-                    >
-                      <div className={styles.card_data_price}>
-                        <p>Precio:</p>
-                        <span>S/ {product.price}</span>
-                      </div>
-                      <button className={styles.card_data_add}>
-                        <BiPlus />
-                      </button>
-                    </div>
-                  </div>
+                  <CardProduct key={product.idProduct} product={product} />
                 ))}
             </div>
           </div>
         ))}
       </div>
       <Footer />
-      {/* MODAL */}
-      {showModalProduct && productData && (
+
+      {modalProduct.showModal && modalProduct.product && (
         <div
           className={styles.modal}
           onClick={() => {
-            setShowModalProduct(false);
+            setModalProduct({
+              showModal: false,
+              product: null,
+            });
+            setModalCount(1);
           }}
         >
+          <ToastContainer />
           <div
             className={styles.modal_content}
             onClick={(e) => e.stopPropagation()}
           >
             <div className={styles.modal_head}>
               <p className={styles.modal_description_title}>Detalle Producto</p>
-              <p className={styles.modal_description_id}>
-                {productData.idProduct}
-              </p>
               <p className={styles.modal_description}>
-                Agrega productos al carrito para poder comprarlos y selecciona
-                la cantidad deseada.
+                {modalProduct.product.description}
               </p>
             </div>
             <div className={styles.modal_detail_product}>
               <img
                 className={styles.modal_product_img}
-                src={productData.url}
-                alt={productData.name}
+                // src={modalProduct.product.url}
+                src="/images/producto1.png"
+                alt={modalProduct.product.name}
               />
               <div className={styles.modal_product_container}>
                 <div className={styles.modal_product_info}>
                   <p className={styles.modal_product_name}>
-                    {productData.name}
+                    {modalProduct.product.name}
                   </p>
                   <table>
                     <thead>
                       <tr>
-                        <td className={styles.modal_description_td}>
-                          Detalle:
-                        </td>
+                        <td className={styles.modal_description_td}>Stock:</td>
                         <td className={styles.modal_description_td}>
                           Precio unitario:
                         </td>
@@ -222,98 +130,52 @@ function Products() {
                     <tbody>
                       <tr>
                         <td className={styles.modal_description_tbody}>
-                          {productData.description}
+                          {modalProduct.product.stock}
                         </td>
                         <td className={styles.modal_description_tbody}>
-                          S/ {productData.price}
+                          S/ {modalProduct.product.price}
                         </td>
                       </tr>
                     </tbody>
                   </table>
                 </div>
                 <div className={styles.modal_product_quantity}>
-                  <button
-                    className={styles.btn_event}
-                    onClick={() => {
-                      if (modalCount > 1) {
-                        setModalCount((prevCount) => prevCount - 1);
-                      }
-                    }}
-                  >
-                    <svg
-                      strokeWidth="1.9"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M6 12h12"
-                        stroke="#FFFFFF"
-                        strokeWidth="1.9"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      ></path>
-                    </svg>
+                  <button className={styles.btn_event}>
+                    <BiMinus
+                      onClick={() => {
+                        if (modalCount > 1) {
+                          setModalCount((prevCount) => prevCount - 1);
+                        }
+                      }}
+                    />
                   </button>
                   <p className={styles.product_quantity}>{modalCount}</p>
-                  <button
-                    className={styles.btn_event}
-                    onClick={() => {
-                      const quantityFromLocalStorage =
-                        localStorage.getItem("quantity");
-                      const quantity = parseInt(
-                        quantityFromLocalStorage ?? "0"
-                      );
-                      const maxCount = productData.stock - quantity;
-
-                      if (modalCount < maxCount) {
-                        setModalCount((prevCount) => prevCount + 1);
-                      }
-                    }}
-                  >
-                    <svg
-                      strokeWidth="1.9"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M6 12h6m6 0h-6m0 0V6m0 6v6"
-                        stroke="#FFFFFF"
-                        strokeWidth="1.9"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      ></path>
-                    </svg>
+                  <button className={styles.btn_event}>
+                    <BiPlus
+                      onClick={() => {
+                        if (
+                          modalProduct.product?.stock &&
+                          modalCount < modalProduct.product.stock
+                        ) {
+                          setModalCount((prevCount) => prevCount + 1);
+                        }
+                      }}
+                    />
                   </button>
                 </div>
               </div>
             </div>
             <div className={styles.modal_cart_option}>
               <p className={styles.product_price_cart}>
-                S/ {modalCount * productData.price}
+                S/ {(modalCount * modalProduct.product.price).toFixed(2)}
               </p>
               <button
                 className={styles.btn_event_add}
-                //onClick={() => addToCart(productData)}
+                onClick={() => handleAddToCart(modalProduct.product!!)}
               >
                 <div className={styles.btn_cart}>
                   <p className={styles.txt_add_cart}>Agregar al carrito</p>
-                  <svg
-                    className={styles.btn_add_cart}
-                    strokeWidth="1.9"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M9 6l6 6-6 6"
-                      stroke="#000000"
-                      strokeWidth="1.9"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    ></path>
-                  </svg>
+                  <BiChevronRight />
                 </div>
               </button>
             </div>
