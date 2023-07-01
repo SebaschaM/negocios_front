@@ -8,12 +8,11 @@ import useFetch from "../../hook/useFetch";
 import { Category, Product } from "../../interfaces";
 import { modalProductAtom } from "../../store/modalProduct";
 import styles from "../../styles/Products.module.css";
-import { addToCartAtom, cartAtom } from "../../store/cartProducts";
+import { addToCartAtom } from "../../store/cartProducts";
 import { OrderCart } from "../../interfaces/CartProduct";
 
 function Products() {
   const { getCategoryList, getListProducts } = useFetch();
-  const [cart, setCart] = useAtom(cartAtom);
   const addToCart = useAtom(addToCartAtom)[1];
   const [category, setCategory] = useState<Category[]>([]);
   const [products, setProducts] = useState<Product[]>([]);
@@ -46,13 +45,14 @@ function Products() {
     setProducts(data);
   };
 
-  const handleAddToCart = (product: Product) => {
+  const handleAddToCartInModal = (product: Product) => {
     const order: OrderCart = {
       product_id: product.idProduct,
       product_url: product.url,
       product_name: product.name,
-      quantity: 1,
+      quantity: modalCount,
       subtotal: product.price,
+      priceTotal: modalCount * product.price,
     };
     addToCart(order);
     notify();
@@ -65,6 +65,7 @@ function Products() {
         description="El poder está en tus manos, nosotros te proveemos las herramientas"
         image="/images/background_products.png"
       />
+      {!modalProduct.showModal && <ToastContainer />}
       <h2 className={styles.title}>Productos por categoría</h2>
       <div className={styles.products}>
         {category.map((category) => (
@@ -76,7 +77,11 @@ function Products() {
                   (product) => product.category_id === category.idCategory
                 )
                 .map((product) => (
-                  <CardProduct key={product.idProduct} product={product} />
+                  <CardProduct
+                    key={product.idProduct}
+                    product={product}
+                    notify={notify}
+                  />
                 ))}
             </div>
           </div>
@@ -95,7 +100,7 @@ function Products() {
             setModalCount(1);
           }}
         >
-          <ToastContainer />
+          {modalProduct.showModal && <ToastContainer />}
           <div
             className={styles.modal_content}
             onClick={(e) => e.stopPropagation()}
@@ -171,7 +176,7 @@ function Products() {
               </p>
               <button
                 className={styles.btn_event_add}
-                onClick={() => handleAddToCart(modalProduct.product!!)}
+                onClick={() => handleAddToCartInModal(modalProduct.product!!)}
               >
                 <div className={styles.btn_cart}>
                   <p className={styles.txt_add_cart}>Agregar al carrito</p>

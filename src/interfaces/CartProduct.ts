@@ -4,4 +4,5 @@ export interface OrderCart {
   product_name: string;
   quantity: number;
   subtotal: number;
+  priceTotal: number;
 }

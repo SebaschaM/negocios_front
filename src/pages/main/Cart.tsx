@@ -1,4 +1,5 @@
 import {
+  BiChevronRight,
   BiLogoMastercard,
   BiLogoVisa,
   BiMinus,
@@ -7,30 +8,78 @@ import {
 } from "react-icons/bi";
 
 import { Header } from "../../components";
+import { useEffect } from "react";
 import styles from "../../styles/Cart.module.css";
+import { useAtom } from "jotai";
+import {
+  addOneToCountAtom,
+  cartAtom,
+  minuOneToCountAtom,
+  removeFromCartAtom,
+} from "../../store/cartProducts";
 
 function Cart() {
+  const [cart, setCart] = useAtom(cartAtom);
+  const removeProduct = useAtom(removeFromCartAtom)[1];
+  const addCountOneProduct = useAtom(addOneToCountAtom)[1];
+  const minusountOneProduct = useAtom(minuOneToCountAtom)[1];
+  const allSubTotal = cart.reduce((acc, product) => {
+    return acc + product.priceTotal;
+  }, 0);
+  const allTotal = cart.reduce((acc, product) => {
+    return acc + product.priceTotal;
+  }, 0);
+
+  useEffect(() => {
+    getLocalStorageCart();
+  }, [cart]);
+
+  const getLocalStorageCart = () => {
+    const cart = localStorage.getItem("cart");
+    if (cart) {
+      setCart(JSON.parse(cart));
+    }
+  };
+
+  const removeProductIntCart = (product_id: number) => {
+    removeProduct(product_id);
+  };
+
   return (
     <div className={styles.background}>
       <Header showHero={false} />
 
       <div className={styles.wrapper}>
         <div className={styles.cards}>
-          {Array.from(Array(3).keys()).map(() => (
-            <div className={styles.card}>
+          {cart.map((product) => (
+            <div key={product.product_id} className={styles.card}>
               <img src="/images/producto1.png" alt="producto" />
-              <p>Tubo PVC</p>
+              <p className={styles.card_name}>{product.product_name}</p>
               <div className={styles.card_quantity}>
-                <button>
+                <button onClick={() => addCountOneProduct(product.product_id)}>
                   <BiPlus />
                 </button>
-                <p>1</p>
-                <button>
+                <p>{product.quantity}</p>
+                <button
+                  onClick={() => {
+                    if (product.quantity > 1) {
+                      minusountOneProduct(product.product_id);
+                    }
+                  }}
+                >
                   <BiMinus />
                 </button>
               </div>
-              <p>S/ 100.00</p>
-              <BiTrash className={styles.trash} />
+              <p className={styles.card_subtotal}>
+                S/ {product.subtotal.toFixed(2)}
+              </p>
+              <p className={styles.card_total}>
+                S/ {product.priceTotal.toFixed(2)}
+              </p>
+              <BiTrash
+                className={styles.trash}
+                onClick={() => removeProductIntCart(product.product_id)}
+              />
             </div>
           ))}
         </div>
@@ -53,7 +102,7 @@ function Cart() {
               <label>Numero de tarjeta</label>
               <input type="text" />
             </div>
-            <div>
+            <div className={styles.pay_form_group_2}>
               <div className={styles.pay_form_group}>
                 <label>Fecha de caducidad</label>
                 <input type="date" />
@@ -61,6 +110,27 @@ function Cart() {
               <div className={styles.pay_form_group}>
                 <label>CVV</label>
                 <input type="tel" />
+              </div>
+            </div>
+            <hr />
+            <div className={styles.pay_form_group_resume_container}>
+              <div className={styles.pay_form_group_resume}>
+                <p>Subtotal</p>
+                <p>S/ {allSubTotal.toFixed(2)}</p>
+              </div>
+              <div className={styles.pay_form_group_resume}>
+                <p>Delivery</p>
+                <p>S/ 5.00</p>
+              </div>
+              <div className={styles.pay_form_group_resume}>
+                <p>Total</p>
+                <p>S/ {(allTotal + 5).toFixed(2)}</p>
+              </div>
+              <div className={styles.pay_form_group_resume_button}>
+                <p>S/ {(allTotal + 5).toFixed(2)}</p>
+                <button>
+                  Pagar ahora <BiChevronRight />
+                </button>
               </div>
             </div>
           </form>

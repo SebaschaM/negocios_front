@@ -5,15 +5,32 @@ import { useAtom } from "jotai";
 
 import { Product } from "../interfaces";
 import { modalProductAtom } from "../store/modalProduct";
+import { addToCartAtom } from "../store/cartProducts";
+import { OrderCart } from "../interfaces/CartProduct";
 import styles from "../styles/Products.module.css";
 
 interface Props {
   product: Product;
+  notify: () => void;
 }
 
-function CardProduct({ product }: Props) {
+function CardProduct({ product, notify }: Props) {
   const [, setModalProduct] = useAtom(modalProductAtom);
   const [count, setCount] = useState(1);
+  const addToCart = useAtom(addToCartAtom)[1];
+
+  const handleAddToCart = (product: Product) => {
+    const order: OrderCart = {
+      product_id: product.idProduct,
+      product_url: product.url,
+      product_name: product.name,
+      quantity: 1,
+      subtotal: product.price,
+      priceTotal: product.price,
+    };
+    addToCart(order);
+    notify();
+  };
 
   return (
     <div
@@ -48,7 +65,10 @@ function CardProduct({ product }: Props) {
           <p>Precio:</p>
           <span>S/ {product.price}</span>
         </div>
-        <button className={styles.card_data_add}>
+        <button
+          className={styles.card_data_add}
+          onClick={() => handleAddToCart(product)}
+        >
           <BiPlus />
         </button>
       </div>
