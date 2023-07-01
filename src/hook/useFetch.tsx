@@ -47,7 +47,7 @@ const useFetch = () => {
     }
   };
 
-  //LISTAR CATEGORIAS - Listo
+  //LISTAR CATEGORIAS
   const getCategoryList = async () => {
     try {
       const response = await TrefisaAPI.get("product/findAll/category", {
@@ -62,7 +62,7 @@ const useFetch = () => {
     }
   };
 
-  //PRODUCTOS POR CATEGORIA - LISTO
+  //PRODUCTOS POR CATEGORIA
   const getProductsByCategory = async (categoryId: number) => {
     try {
       const response = await TrefisaAPI.get(
