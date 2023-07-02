@@ -50,10 +50,29 @@ function Profile() {
               </div>
 
               <div className={styles.fullname_info}>
-                <p className={styles.label_info}>Nombre Completo</p>
-                <input type="text" placeholder="Jhon Doe" />
+                <p className={styles.label_info}>Correo electrónico</p>
+                <input type="text" placeholder="example@example.com" />
               </div>
             </div>
+            <div className={styles.group_info}>
+              <div className={styles.fullname_info}>
+                <p className={styles.label_info}>Teléfono</p>
+                <input type="text" placeholder="123456789" />
+              </div>
+
+              <div className={styles.fullname_info}>
+                <p className={styles.label_info}>Contraseña</p>
+                <input type="text" placeholder="****************" />
+              </div>
+            </div>
+          </div>
+          <button className={styles.btn_add}>
+            <p>Actualizar Datos</p>
+          </button>
+        </div>
+        <div className={styles.profile_info}>
+          <p className={styles.tittle_info}>Datos Personales</p>
+          <div className={styles.detail_info}>
             <div className={styles.group_info}>
               <div className={styles.fullname_info}>
                 <p className={styles.label_info}>Nombre Completo</p>
@@ -61,8 +80,19 @@ function Profile() {
               </div>
 
               <div className={styles.fullname_info}>
-                <p className={styles.label_info}>Nombre Completo</p>
-                <input type="text" placeholder="Jhon Doe" />
+                <p className={styles.label_info}>Correo electrónico</p>
+                <input type="text" placeholder="example@example.com" />
+              </div>
+            </div>
+            <div className={styles.group_info}>
+              <div className={styles.fullname_info}>
+                <p className={styles.label_info}>Teléfono</p>
+                <input type="text" placeholder="123456789" />
+              </div>
+
+              <div className={styles.fullname_info}>
+                <p className={styles.label_info}>Contraseña</p>
+                <input type="text" placeholder="****************" />
               </div>
             </div>
           </div>

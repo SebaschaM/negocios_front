@@ -1,6 +1,7 @@
 .background {
   background-color: black;
   height: 100vh;
+  overflow: auto;
 }
 
 .profile_contariner {
@@ -35,14 +36,6 @@
   padding-right: 3rem;
 }
 
-.profile_info_option {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  gap: 1rem;
-}
-
 .btn_profile_info {
   background-color: #141415;
   border: none;
@@ -67,6 +60,16 @@
 
 /* DETALLAE DE INFORMACION  */
 
+.profile_info_option {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+  gap: 1rem;
+}
+
 .profile_info {
   display: flex;
   flex-direction: column;
@@ -81,5 +84,5 @@
   display: flex;
   flex-direction: row;
   align-items: center;
-  gap: 1rem;
+  gap: 10rem;
 }
