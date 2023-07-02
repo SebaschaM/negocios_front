@@ -37,6 +37,7 @@ function Login() {
         fullname: fullname,
         phone: phone,
         dni: dni,
+        password: password,
       };
       notify("Inicio de sesión exitoso", "success");
       localStorage.setItem("user", JSON.stringify(user));
