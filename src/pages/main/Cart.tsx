@@ -17,12 +17,18 @@ import {
   minuOneToCountAtom,
   removeFromCartAtom,
 } from "../../store/cartProducts";
+import { useOrder } from "../../hook/useOrder";
+import { useForm } from "react-hook-form";
+import { Order } from "../../interfaces/Order";
 
 function Cart() {
   const [cart, setCart] = useAtom(cartAtom);
   const removeProduct = useAtom(removeFromCartAtom)[1];
   const addCountOneProduct = useAtom(addOneToCountAtom)[1];
   const minusountOneProduct = useAtom(minuOneToCountAtom)[1];
+  const { addOrder } = useOrder();
+  const { handleSubmit, register } = useForm();
+
   const allSubTotal = cart.reduce((acc, product) => {
     return acc + product.priceTotal;
   }, 0);
@@ -32,7 +38,7 @@ function Cart() {
 
   useEffect(() => {
     getLocalStorageCart();
-  }, [cart]);
+  }, [setCart]);
 
   const getLocalStorageCart = () => {
     const cart = localStorage.getItem("cart");
@@ -43,6 +49,14 @@ function Cart() {
 
   const removeProductIntCart = (product_id: number) => {
     removeProduct(product_id);
+  };
+
+  const addOrderToDB = async (data: any) => {
+    const dataOrder = {
+      subtotal: allSubTotal,
+    };
+    const response = await addOrder(data);
+    console.log(response);
   };
 
   return (
@@ -93,23 +107,26 @@ function Cart() {
               <BiLogoVisa className={styles.option_type_card} />
             </div>
           </div>
-          <form className={styles.pay_form}>
+          <form
+            className={styles.pay_form}
+            onSubmit={handleSubmit(addOrderToDB)}
+          >
             <div className={styles.pay_form_group}>
               <label>Nombre de tarjeta</label>
-              <input type="text" />
+              <input type="text" {...register("name_card")} />
             </div>
             <div className={styles.pay_form_group}>
               <label>Numero de tarjeta</label>
-              <input type="text" />
+              <input type="text" {...register("number_card")} />
             </div>
             <div className={styles.pay_form_group_2}>
               <div className={styles.pay_form_group}>
                 <label>Fecha de caducidad</label>
-                <input type="date" />
+                <input type="date" {...register("expiration_card")} />
               </div>
               <div className={styles.pay_form_group}>
                 <label>CVV</label>
-                <input type="tel" />
+                <input type="tel" {...register("cvv_card")} />
               </div>
             </div>
             <hr />

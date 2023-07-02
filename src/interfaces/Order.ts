@@ -1,0 +1,14 @@
+// Order : id_order, subtotal, address, total, quantity, purchase_date, description, client_id
+
+// Order_product: idOrder_product, order_id, product_id
+
+export interface Order {
+  subtotal: number;
+  address: string;
+  total: number;
+  quantity: number;
+  purchase_date: string;
+  description: string;
+  client_id: number;
+  product_id: number;
+}
