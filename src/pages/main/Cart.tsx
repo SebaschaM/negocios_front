@@ -52,11 +52,19 @@ function Cart() {
   };
 
   const addOrderToDB = async (data: any) => {
-    const dataOrder = {
-      subtotal: allSubTotal,
-    };
-    const response = await addOrder(data);
-    console.log(response);
+    for (const product of cart) {
+      const response = await addOrder({
+        subtotal: product.subtotal,
+        address: data.direction,
+        total: product.priceTotal,
+        quantity: product.quantity,
+        purchase_date: new Date().toDateString(),
+        description: "Description",
+        client_id: 1,
+        product_id: product.product_id,
+      });
+      console.log(response);
+    }
   };
 
   return (
@@ -128,6 +136,10 @@ function Cart() {
                 <label>CVV</label>
                 <input type="tel" {...register("cvv_card")} />
               </div>
+            </div>
+            <div className={styles.pay_form_group}>
+              <label>Direccion</label>
+              <input type="text" {...register("direction")} />
             </div>
             <hr />
             <div className={styles.pay_form_group_resume_container}>
