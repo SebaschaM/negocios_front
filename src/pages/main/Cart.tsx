@@ -8,26 +8,34 @@ import {
 } from "react-icons/bi";
 
 import { Header } from "../../components";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import styles from "../../styles/Cart.module.css";
 import { useAtom } from "jotai";
 import {
   addOneToCountAtom,
   cartAtom,
+  clearCartAtom,
   minuOneToCountAtom,
   removeFromCartAtom,
 } from "../../store/cartProducts";
 import { useOrder } from "../../hook/useOrder";
 import { useForm } from "react-hook-form";
-import { Order } from "../../interfaces/Order";
+import { ToastContainer, toast } from "react-toastify";
 
 function Cart() {
   const [cart, setCart] = useAtom(cartAtom);
   const removeProduct = useAtom(removeFromCartAtom)[1];
   const addCountOneProduct = useAtom(addOneToCountAtom)[1];
   const minusountOneProduct = useAtom(minuOneToCountAtom)[1];
+  const clearCart = useAtom(clearCartAtom)[1];
   const { addOrder } = useOrder();
-  const { handleSubmit, register } = useForm();
+  const [cartUpdated, setCartUpdated] = useState(false);
+  const {
+    handleSubmit,
+    register,
+    reset,
+    formState: { errors },
+  } = useForm();
 
   const allSubTotal = cart.reduce((acc, product) => {
     return acc + product.priceTotal;
@@ -38,7 +46,8 @@ function Cart() {
 
   useEffect(() => {
     getLocalStorageCart();
-  }, [setCart]);
+    setCartUpdated(false);
+  }, [true, cartUpdated]);
 
   const getLocalStorageCart = () => {
     const cart = localStorage.getItem("cart");
@@ -52,6 +61,36 @@ function Cart() {
   };
 
   const addOrderToDB = async (data: any) => {
+    if (Object.keys(errors).length > 0) {
+      return toast.error("Llene los campos de pago", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+      });
+    }
+
+    const userLS: { email: string } = JSON.parse(
+      localStorage.getItem("user") || '{"email": ""}'
+    );
+
+    if (userLS?.email === "") {
+      return toast.error("Inicie sesion para realizar la compra", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+      });
+    }
+
     for (const product of cart) {
       const response = await addOrder({
         subtotal: product.subtotal,
@@ -63,14 +102,25 @@ function Cart() {
         client_id: 1,
         product_id: product.product_id,
       });
-      console.log(response);
+      reset();
+      clearCart();
+      toast.success(response.message, {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+      });
     }
   };
 
   return (
     <div className={styles.background}>
       <Header showHero={false} />
-
+      <ToastContainer />
       <div className={styles.wrapper}>
         <div className={styles.cards}>
           {cart.map((product) => (
@@ -78,7 +128,12 @@ function Cart() {
               <img src="/images/producto1.png" alt="producto" />
               <p className={styles.card_name}>{product.product_name}</p>
               <div className={styles.card_quantity}>
-                <button onClick={() => addCountOneProduct(product.product_id)}>
+                <button
+                  onClick={() => {
+                    addCountOneProduct(product.product_id);
+                    setCartUpdated(true);
+                  }}
+                >
                   <BiPlus />
                 </button>
                 <p>{product.quantity}</p>
@@ -86,6 +141,7 @@ function Cart() {
                   onClick={() => {
                     if (product.quantity > 1) {
                       minusountOneProduct(product.product_id);
+                      setCartUpdated(true);
                     }
                   }}
                 >
@@ -121,25 +177,40 @@ function Cart() {
           >
             <div className={styles.pay_form_group}>
               <label>Nombre de tarjeta</label>
-              <input type="text" {...register("name_card")} />
+              <input
+                type="text"
+                {...register("name_card", { required: true })}
+              />
             </div>
             <div className={styles.pay_form_group}>
               <label>Numero de tarjeta</label>
-              <input type="text" {...register("number_card")} />
+              <input
+                type="text"
+                {...register("number_card", { required: true })}
+              />
             </div>
             <div className={styles.pay_form_group_2}>
               <div className={styles.pay_form_group}>
                 <label>Fecha de caducidad</label>
-                <input type="date" {...register("expiration_card")} />
+                <input
+                  type="date"
+                  {...register("expiration_card", { required: true })}
+                />
               </div>
               <div className={styles.pay_form_group}>
                 <label>CVV</label>
-                <input type="tel" {...register("cvv_card")} />
+                <input
+                  type="tel"
+                  {...register("cvv_card", { required: true })}
+                />
               </div>
             </div>
             <div className={styles.pay_form_group}>
               <label>Direccion</label>
-              <input type="text" {...register("direction")} />
+              <input
+                type="text"
+                {...register("direction", { required: true })}
+              />
             </div>
             <hr />
             <div className={styles.pay_form_group_resume_container}>
@@ -149,14 +220,22 @@ function Cart() {
               </div>
               <div className={styles.pay_form_group_resume}>
                 <p>Delivery</p>
-                <p>S/ 5.00</p>
+                <p>
+                  S/ {cart.length > 0 ? (5.0).toFixed(2) : (0.0).toFixed(2)}
+                </p>
               </div>
               <div className={styles.pay_form_group_resume}>
                 <p>Total</p>
-                <p>S/ {(allTotal + 5).toFixed(2)}</p>
+                <p>
+                  S/{" "}
+                  {cart.length > 0 ? (allTotal + 5).toFixed(2) : (0).toFixed(2)}
+                </p>
               </div>
               <div className={styles.pay_form_group_resume_button}>
-                <p>S/ {(allTotal + 5).toFixed(2)}</p>
+                <p>
+                  S/{" "}
+                  {cart.length > 0 ? (allTotal + 5).toFixed(2) : (0).toFixed(2)}
+                </p>
                 <button>
                   Pagar ahora <BiChevronRight />
                 </button>
