@@ -26,13 +26,15 @@ const useAuth = () => {
     email: string,
     password: string,
     fullname: string,
-    phone: string
+    phone: string,
+    dni: string
   ) => {
     try {
       const response = await TrefisaAPI.post(
         "auth/register",
         {
           fullname,
+          dni,
           email,
           password,
           phone,

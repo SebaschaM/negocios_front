@@ -2,9 +2,11 @@ import { Header } from "../../components";
 import { useEffect, useState } from "react";
 import { BiLogOut } from "react-icons/bi";
 import { useNavigate } from "react-router-dom";
+import useFetch from "../../hook/useFetch";
 import styles from "../../styles/Profile.module.css";
 
-interface userData {
+interface UserData {
+  id?: number;
   fullname?: string;
   email?: string;
   phone?: string;
@@ -13,12 +15,12 @@ interface userData {
 }
 
 function Profile() {
+  const { updateProfile } = useFetch();
   const navigate = useNavigate();
   const [selectedButton, setSelectedButton] = useState<
     "personal" | "actualizacion"
   >("personal");
-  const [, setLogout] = useState<boolean>(false);
-  const [userData, setUserData] = useState<userData>({
+  const [userData, setUserData] = useState<UserData>({
     fullname: "",
     email: "",
     phone: "",
@@ -28,7 +30,6 @@ function Profile() {
   const handleLogout = () => {
     localStorage.removeItem("user");
     navigate("/");
-    setLogout(true);
   };
 
   const getUserData = () => {
@@ -38,17 +39,25 @@ function Profile() {
     }
   };
 
-  const handleUpdateProfile = () => {
-    setSelectedButton("actualizacion");
-  };
-
-  const clearUserData = () => {
-    setUserData({
-      fullname: "",
-      email: "",
-      phone: "",
-      dni: "",
-    });
+  const handleSaveUpdateUser = async () => {
+    try {
+      if (
+        userData.id &&
+        userData.fullname &&
+        userData.email &&
+        userData.phone &&
+        userData.dni &&
+        userData.password
+      ) {
+        const response = await updateProfile(userData.id.toString(), userData);
+        if (response) {
+          localStorage.setItem("user", JSON.stringify(userData));
+          navigate("/");
+        }
+      }
+    } catch (error) {
+      console.log("Error al actualizar los datos del usuario");
+    }
   };
 
   useEffect(() => {
@@ -85,23 +94,24 @@ function Profile() {
               } ${styles.btn_profile_info}`}
               onClick={() => {
                 setSelectedButton("actualizacion");
-                clearUserData();
               }}
             >
               Actualizar Datos
             </button>
           </div>
         </div>
-        <div className={styles.profile_info_container}>
+        <form
+          className={styles.profile_info_container}
+          onSubmit={(e) => e.preventDefault()}
+        >
           <p className={styles.profile_info_tittle}>Datos Personales</p>
-          {}
           <div className={styles.detail_info}>
             <div className={styles.group_info}>
               <div className={styles.profile_info}>
                 <p className={styles.label_info}>Nombre Completo</p>
                 <input
                   type="text"
-                  disabled={selectedButton === "personal" ? true : false} // Usamos el atributo disabled en lugar de readOnly
+                  disabled={selectedButton === "personal"}
                   value={userData.fullname || ""}
                   className={styles.input_info}
                   placeholder={
@@ -119,8 +129,8 @@ function Profile() {
                 <p className={styles.label_info}>Correo electrónico</p>
                 <input
                   type="text"
-                  disabled={selectedButton === "personal" ? true : false}
-                  value={userData?.email || ""}
+                  disabled={selectedButton === "personal"}
+                  value={userData.email || ""}
                   className={styles.input_info}
                   placeholder="example@example.com"
                   onChange={(e) =>
@@ -134,8 +144,8 @@ function Profile() {
                 <p className={styles.label_info}>Teléfono</p>
                 <input
                   type="text"
-                  disabled={selectedButton === "personal" ? true : false}
-                  value={userData?.phone || ""}
+                  disabled={selectedButton === "personal"}
+                  value={userData.phone || ""}
                   className={styles.input_info}
                   onChange={(e) =>
                     setUserData({ ...userData, phone: e.target.value })
@@ -150,7 +160,8 @@ function Profile() {
                   <input
                     type="text"
                     readOnly
-                    value={userData?.dni || ""}
+                    disabled={true}
+                    value={userData.dni || ""}
                     className={styles.input_info}
                   />
                 </div>
@@ -160,6 +171,7 @@ function Profile() {
                   <input
                     type="password"
                     disabled={false}
+                    value={userData.password || ""} // Usar el valor almacenado en el estado
                     className={styles.input_info}
                     onChange={(e) =>
                       setUserData({ ...userData, password: e.target.value })
@@ -172,8 +184,11 @@ function Profile() {
           </div>
           <button
             className={styles.logout_btn}
+            type="submit"
             onClick={
-              selectedButton === "personal" ? handleLogout : handleUpdateProfile
+              selectedButton === "personal"
+                ? handleLogout
+                : handleSaveUpdateUser
             }
           >
             <BiLogOut />
@@ -183,7 +198,7 @@ function Profile() {
                 : "Actualizar Perfil"}
             </p>
           </button>
-        </div>
+        </form>
       </div>
     </div>
   );
