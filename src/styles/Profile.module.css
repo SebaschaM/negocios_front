@@ -1,0 +1,85 @@
+.background {
+  background-color: black;
+  height: 100vh;
+}
+
+.profile_contariner {
+  display: flex;
+  flex-direction: column;
+  margin-left: 2rem;
+  margin-right: 2rem;
+  gap: 2.5rem;
+}
+
+.profile_options {
+  display: flex;
+  flex-direction: column;
+  border-radius: 1.5rem;
+  gap: 2.8rem;
+  padding-top: 2.5rem;
+  background-color: #141415;
+}
+
+.profile_tittle {
+  font-size: 1.8rem;
+  color: white;
+  font-weight: bold;
+  padding-left: 3rem;
+  padding-right: 3rem;
+}
+
+.profile_description {
+  font-size: 1.3rem;
+  color: white;
+  padding-left: 3rem;
+  padding-right: 3rem;
+}
+
+.profile_info_option {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+
+.btn_profile_info {
+  background-color: #141415;
+  border: none;
+  cursor: pointer;
+  color: white;
+  border-bottom: 1px solid #bbbbbb;
+  width: 50%;
+}
+
+.btnSelect {
+  border-bottom: 2px solid white;
+  color: white;
+}
+.btnNoselect {
+  border-bottom: 1px solid #a3a3a3;
+}
+
+.btnNoselect:hover {
+  border-bottom: 1px solid white;
+  color: white;
+}
+
+/* DETALLAE DE INFORMACION  */
+
+.profile_info {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding-left: 3rem;
+  padding-right: 3rem;
+  background-color: #141415;
+  border-radius: 1.5rem;
+}
+
+.detail_info {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 1rem;
+}

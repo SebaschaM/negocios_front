@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { Cart, Home, Login, Products, Register } from "../pages";
+import { Cart, Home, Login, Products, Profile, Register } from "../pages";
 
 export const AppRouter = () => {
   return (
@@ -11,6 +11,7 @@ export const AppRouter = () => {
         <Route path="/products" element={<Products />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/orders" element={<Products />} />
+        <Route path="/profile" element={<Profile />} />
       </Routes>
     </BrowserRouter>
   );

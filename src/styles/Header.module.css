@@ -89,3 +89,43 @@
 .active_link {
   color: #fff !important;
 }
+
+/*============= USUARIO LOGEADO ====================*/
+
+.content_user_login {
+  width: 15rem;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1rem;
+  border-radius: 1rem;
+}
+.content_user_login:hover {
+  background-color: #c9c9c9;
+  transform: scale(0.98);
+}
+.content_user_login:hover .user_name {
+  color: #2e2e2e;
+}
+.content_user_login:hover .phoneHeader {
+  color: #2e2e2e;
+}
+.user_name {
+  font-size: 1rem;
+  color: #aaa9a9;
+}
+.phoneHeader {
+  color: #aaa9a9;
+  font-size: 0.8rem;
+}
+.user_photo {
+  width: 50px;
+  height: auto;
+  background-size: cover;
+}
+
+.user_photo img {
+  width: 100%;
+  height: 100%;
+}
