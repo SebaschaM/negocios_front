@@ -28,10 +28,16 @@ function Register() {
     const email = e.currentTarget.email.value;
     const password = e.currentTarget.password.value;
     const phone = e.currentTarget.phone.value;
-    // const dni = e.currentTarget.dni.value;
+    const dni = e.currentTarget.dni.value;
 
     try {
-      const userData = await registerUser(email, password, fullname, phone); //dni
+      const userData = await registerUser(
+        email,
+        password,
+        fullname,
+        phone,
+        dni
+      ); //dni
 
       console.log(userData);
 

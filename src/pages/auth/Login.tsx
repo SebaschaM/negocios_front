@@ -28,11 +28,12 @@ function Login() {
     const password = e.currentTarget.password.value;
     try {
       const userData = await loginUser(email, password);
-      const { fullname, phone, dni } = userData;
+      const { idClient, fullname, phone, dni } = userData;
 
       console.log(userData);
 
       const user = {
+        id: idClient,
         email: email,
         fullname: fullname,
         phone: phone,

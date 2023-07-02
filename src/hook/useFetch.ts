@@ -1,23 +1,49 @@
 import TrefisaAPI from "../api/TrefisaAPI";
 
+interface userData {
+  id?: number;
+  fullname?: string;
+  email?: string;
+  phone?: string;
+  dni?: string;
+  password?: string;
+}
+
 const useFetch = () => {
-  //OBTENER PERFIL
-  const getProfile = async (token: string, clientId: string) => {
+  //USEPROFILE
+  const getProfile = async (clientId: string) => {
     try {
       const response = await TrefisaAPI.get(`auth/profile/${clientId}`, {
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
         },
       });
-
       return response.data;
     } catch (error) {
       throw new Error("Error al obtener los datos del usuario");
     }
   };
 
-  //LISTAR ORDENES POR USUARIO
+  //USEPROFILE
+  const updateProfile = async (clientId: string, userData: userData) => {
+    try {
+      const response = await TrefisaAPI.put(
+        `auth/updateprofile/${clientId}`,
+        userData,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      return response.data;
+    } catch (error) {
+      throw new Error("Error al actualizar los datos del usuario");
+    }
+  };
+
+  //USEORDERS
   const getOrderList = async (clientId: string) => {
     try {
       const response = await TrefisaAPI.get(`order/${clientId}`, {
@@ -32,7 +58,7 @@ const useFetch = () => {
     }
   };
 
-  //VER DETALLE DE PRODUCTO - listo
+  //USRORDERS
   const getDetailProduct = async (productId: string) => {
     try {
       const response = await TrefisaAPI.get(`product/find/${productId}`, {
@@ -47,7 +73,7 @@ const useFetch = () => {
     }
   };
 
-  //LISTAR CATEGORIAS
+  //USEPRODUCT
   const getCategoryList = async () => {
     try {
       const response = await TrefisaAPI.get("product/findAll/category", {
@@ -62,7 +88,7 @@ const useFetch = () => {
     }
   };
 
-  //PRODUCTOS POR CATEGORIA
+  //USEPRODUCT
   const getProductsByCategory = async (categoryId: number) => {
     try {
       const response = await TrefisaAPI.get(
@@ -80,6 +106,7 @@ const useFetch = () => {
     }
   };
 
+  //USEPRODUCT
   const getListProducts = async () => {
     try {
       const response = await TrefisaAPI.get(`product`, {
@@ -101,6 +128,7 @@ const useFetch = () => {
     getCategoryList,
     getProductsByCategory,
     getListProducts,
+    updateProfile,
   };
 };
 
