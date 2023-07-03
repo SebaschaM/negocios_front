@@ -70,17 +70,19 @@ function Header({ title, description, image, showHero = true }: Props) {
                 Carrito
               </NavLink>
             </li>
-            <li>
-              <NavLink
-                to="/orders"
-                end
-                className={({ isActive }) =>
-                  isActive ? `${styles.active_link}` : ""
-                }
-              >
-                Pedidos
-              </NavLink>
-            </li>
+            {isUserLoggedIn && (
+              <li>
+                <NavLink
+                  to="/orders"
+                  end
+                  className={({ isActive }) =>
+                    isActive ? `${styles.active_link}` : ""
+                  }
+                >
+                  Pedidos
+                </NavLink>
+              </li>
+            )}
           </ul>
           {isUserLoggedIn ? (
             <Link to="/profile">
@@ -151,17 +153,19 @@ function Header({ title, description, image, showHero = true }: Props) {
                 Carrito
               </NavLink>
             </li>
-            <li>
-              <NavLink
-                to="/orders"
-                end
-                className={({ isActive }) =>
-                  isActive ? `${styles.active_link}` : ""
-                }
-              >
-                Pedidos
-              </NavLink>
-            </li>
+            {isUserLoggedIn && (
+              <li>
+                <NavLink
+                  to="/orders"
+                  end
+                  className={({ isActive }) =>
+                    isActive ? `${styles.active_link}` : ""
+                  }
+                >
+                  Pedidos
+                </NavLink>
+              </li>
+            )}
           </ul>
           {isUserLoggedIn ? (
             <Link to="/profile">

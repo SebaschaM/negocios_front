@@ -11,7 +11,17 @@ export const useOrder = () => {
     }
   };
 
+  const getOrders = async (idUser: number) => {
+    try {
+      const response = await TrefisaAPI.get(`order/${idUser}`);
+      return response.data;
+    } catch (error) {
+      throw new Error("Error al obtener los datos del usuario");
+    }
+  };
+
   return {
     addOrder,
+    getOrders,
   };
 };

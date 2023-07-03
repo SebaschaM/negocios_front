@@ -1,5 +1,13 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { Cart, Home, Login, Products, Profile, Register } from "../pages";
+import {
+  Cart,
+  Home,
+  Login,
+  Order,
+  Products,
+  Profile,
+  Register,
+} from "../pages";
 
 export const AppRouter = () => {
   return (
@@ -10,7 +18,7 @@ export const AppRouter = () => {
         <Route path="/" element={<Home />} />
         <Route path="/products" element={<Products />} />
         <Route path="/cart" element={<Cart />} />
-        <Route path="/orders" element={<Products />} />
+        <Route path="/orders" element={<Order />} />
         <Route path="/profile" element={<Profile />} />
       </Routes>
     </BrowserRouter>
