@@ -8,23 +8,16 @@ function Footer() {
       <div className={styles.footer_links}>
         <ul>
           <li>
-            <Link to="">Contactanos</Link>
+            <Link to="">Inicio</Link>
           </li>
-          <li>
-            <Link to="">Sobre nosotros</Link>
-          </li>
-          <li>
-            <Link to="">Categoria</Link>
-          </li>
-        </ul>
-        <ul>
           <li>
             <Link to="">Productos</Link>
           </li>
           <li>
-            <Link to="">Inicio</Link>
+            <Link to="">Carrito</Link>
           </li>
         </ul>
+        <ul></ul>
       </div>
     </footer>
   );

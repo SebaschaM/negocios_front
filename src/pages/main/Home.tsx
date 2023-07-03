@@ -1,4 +1,4 @@
-import { Footer, Header } from "../../components";
+import { CardProduct, Footer, Header } from "../../components";
 import {
   BiPlus,
   BiLocationPlus,
@@ -11,9 +11,48 @@ import {
   BiUser,
 } from "react-icons/bi";
 import styles from "../../styles/Home.module.css";
+import { ToastContainer, toast } from "react-toastify";
+import { useEffect, useState } from "react";
+import { Category, Product } from "../../interfaces";
+import useFetch from "../../hook/useFetch";
+import { Link } from "react-router-dom";
 // import { Link } from "react-router-dom";
 
 function Home() {
+  const [products, setProducts] = useState<Product[]>([]);
+  const [category, setCategory] = useState<Category[]>([]);
+  const productsCopy = [...products];
+  productsCopy.sort(() => Math.random() - 0.5);
+  const randomProducts = productsCopy.slice(0, 5);
+
+  const { getCategoryList, getListProducts } = useFetch();
+  const notify = () =>
+    toast.success("Producto agregado al carrito", {
+      position: "top-right",
+      autoClose: 3000,
+      hideProgressBar: true,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "colored",
+    });
+
+  useEffect(() => {
+    handleListCategories();
+    handleListProducts();
+  }, []);
+
+  const handleListCategories = async () => {
+    const categories = await getCategoryList();
+    setCategory(categories);
+  };
+
+  const handleListProducts = async () => {
+    const data = await getListProducts();
+    setProducts(data);
+  };
+
   return (
     <>
       <Header
@@ -21,10 +60,17 @@ function Home() {
         description="Herramientas de confianza, resultados duraderos"
         image="/images/background_home.png"
       />
+      <ToastContainer />
       <section className={styles.home_categories}>
         <h2>Nuestras Categorías</h2>
         <div className={styles.cards}>
-          <div className={styles.card}>
+          {category.map((category) => (
+            <div className={styles.card}>
+              <img src="/images/calamina.png" alt="calamina" />
+              <p className={styles.card_name_category}>{category.name}</p>
+            </div>
+          ))}
+          {/* <div className={styles.card}>
             <img src="/images/calamina.png" alt="calamina" />
             <p className={styles.card_name_category}>Calaminas</p>
           </div>
@@ -35,13 +81,20 @@ function Home() {
           <div className={styles.card}>
             <img src="/images/tubos.png" alt="tubos" />
             <p className={styles.card_name_category}>Tubos PVC</p>
-          </div>
+          </div> */}
         </div>
       </section>
       <section className={styles.home_products}>
         <h2>Nuestros Productos</h2>
         <div className={styles.cards}>
-          <div className={styles.card}>
+          {randomProducts.map((product) => (
+            <CardProduct
+              key={product.idProduct}
+              product={product}
+              notify={notify}
+            />
+          ))}
+          {/* <div className={styles.card}>
             <img src="/images/producto1.png" alt="calamina" />
             <p className={styles.card_name}>
               PVC C10 CODO 3/4"X90øC/R MATUSITA
@@ -55,35 +108,11 @@ function Home() {
                 <BiPlus />
               </button>
             </div>
-          </div>
-          <div className={styles.card}>
-            <img src="/images/producto1.png" alt="calamina" />
-            <p className={styles.card_name}>FIERRO 5/8 x 9MT IMPORTADO</p>
-            <div className={styles.card_data}>
-              <div className={styles.card_data_price}>
-                <p>Precio:</p>
-                <span>S/ 20.00</span>
-              </div>
-              <button className={styles.card_data_add}>
-                <BiPlus />
-              </button>
-            </div>
-          </div>
-          <div className={styles.card}>
-            <img src="/images/producto1.png" alt="calamina" />
-            <p className={styles.card_name}>Calamina 0.30x0.80x1.80M</p>
-            <div className={styles.card_data}>
-              <div className={styles.card_data_price}>
-                <p>Precio:</p>
-                <span>S/ 20.00</span>
-              </div>
-              <button className={styles.card_data_add}>
-                <BiPlus />
-              </button>
-            </div>
-          </div>
+          </div> */}
         </div>
-        <button className={styles.button_products}>Ver productos</button>
+        <Link to="products">
+          <button className={styles.button_products}>Ver productos</button>
+        </Link>
       </section>
 
       <section className={styles.about}>

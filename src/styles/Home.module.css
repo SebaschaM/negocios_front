@@ -1,7 +1,7 @@
 .home_categories,
 .home_products {
   margin-top: 8rem;
-  padding-left: 2rem;
+  padding-inline: 2rem;
   display: flex;
   flex-direction: column;
   row-gap: 2rem;
