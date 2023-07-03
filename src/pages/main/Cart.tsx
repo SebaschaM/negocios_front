@@ -127,7 +127,11 @@ function Cart() {
         <div className={styles.cards}>
           {cart.map((product) => (
             <div key={product.product_id} className={styles.card}>
-              <img src="/images/producto1.png" alt="producto" />
+              <img
+                src={product.product_url}
+                className={styles.card_url}
+                alt="producto"
+              />
               <p className={styles.card_name}>{product.product_name}</p>
               <div className={styles.card_quantity}>
                 <button

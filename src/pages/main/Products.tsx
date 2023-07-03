@@ -115,7 +115,7 @@ function Products() {
               <img
                 className={styles.modal_product_img}
                 // src={modalProduct.product.url}
-                src="/images/producto1.png"
+                src={modalProduct.product.url}
                 alt={modalProduct.product.name}
               />
               <div className={styles.modal_product_container}>

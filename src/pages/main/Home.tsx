@@ -66,7 +66,11 @@ function Home() {
         <div className={styles.cards}>
           {category.map((category) => (
             <div className={styles.card}>
-              <img src="/images/calamina.png" alt="calamina" />
+              <img
+                src={category.url}
+                className={styles.card_category}
+                alt="calamina"
+              />
               <p className={styles.card_name_category}>{category.name}</p>
             </div>
           ))}
@@ -148,7 +152,12 @@ function Home() {
               <BiLocationPlus />
               Direccion
             </div>
-            <p>XXXXXXXXXXXXXXXXXXXXXXXXXX</p>
+            <a
+              href="https://goo.gl/maps/BkSRFMVEEH9QSDNMA"
+              className={styles.about_address}
+            >
+              Av Pablo Patrón 211-223
+            </a>
             <p>Lima - La Victoria</p>
           </div>
           <div className={styles.about_card}>
@@ -156,16 +165,15 @@ function Home() {
               <BiPhone />
               Telefonos
             </div>
-            <p>+51 123456789</p>
-            <p>+51 123456789</p>
-            <p>+51 123456789</p>
+            <p>+51 977 383 562</p>
+            <p>+51 981 004 133 </p>
           </div>
           <div className={styles.about_card}>
             <div>
               <BiMailSend />
               Correo electronico
             </div>
-            <p>XXXXXXXXXXXXXXXXXXXXXXXXXX</p>
+            <p>trefisaproyecto@gmail.com</p>
           </div>
         </div>
 
@@ -176,7 +184,7 @@ function Home() {
               Horario de atencion
             </div>
             <p>Lunes - Sábado:</p>
-            <p>9:30 am - 10:00 pm</p>
+            <p>08:00 am - 18:00 pm</p>
           </div>
           <div className={styles.about_card}>
             <div>
@@ -231,7 +239,7 @@ function Home() {
             <div className={styles.contact_comment_gerent}>
               <BiUser />
             </div>
-            <p>XXXXX - Gerente</p>
+            <p>Pablo Modesto Cucho Gamarra - Gerente</p>
           </div>
         </div>
       </section>

@@ -56,6 +56,10 @@
   cursor: pointer;
 }
 
+.card_url {
+  border-radius: 1.2rem;
+}
+
 .card_quantity button svg {
   font-size: 1.5rem;
 }

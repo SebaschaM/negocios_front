@@ -114,3 +114,7 @@
   flex-direction: column;
   row-gap: 1rem;
 }
+
+.modal_product_img {
+  border-radius: 2rem;
+}

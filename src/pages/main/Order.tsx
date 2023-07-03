@@ -89,7 +89,11 @@ function Order() {
               </p>
               <hr />
               <div className={styles.modal_detail}>
-                <img src="/images/producto1.png" alt="producto" />
+                <img
+                  src={productSelected.url}
+                  className={styles.modal_product_img}
+                  alt="producto"
+                />
                 <div className={styles.modal_detail_info}>
                   <p>
                     Precio Unitario: S/ {productSelected.subtotal.toFixed(2)}

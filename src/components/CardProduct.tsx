@@ -44,7 +44,7 @@ function CardProduct({ product, notify }: Props) {
       }}
     >
       {/* <img src={product.url} alt="producto" /> */}
-      <img src="/images/producto1.png" alt="producto" />
+      <img src={product.url} className={styles.card_product} alt="producto" />
       <Link to="">
         <p className={styles.card_name_product}>{product.name}</p>
       </Link>

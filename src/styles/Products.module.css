@@ -17,6 +17,7 @@
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   column-gap: 2rem;
+  row-gap: 2rem;
 }
 
 .cards_container {
@@ -32,6 +33,11 @@
   align-items: center;
   flex-direction: column;
   width: 65%;
+  cursor: pointer;
+}
+
+.card:hover {
+  transform: scale(1.1);
 }
 
 .card_name_product {
@@ -68,6 +74,10 @@
 .card_data_add:hover {
   background-color: #494949;
   transform: scale(1.1);
+}
+
+.card_product {
+  width: 80%;
 }
 
 /* Modal */

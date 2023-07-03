@@ -20,6 +20,7 @@
 .card {
   display: flex;
   justify-content: center;
+  align-items: center;
   flex-direction: column;
   row-gap: 1rem;
   cursor: pointer;
@@ -27,13 +28,20 @@
   width: 20rem;
 }
 
-/* .card:hover {
+.card:hover {
   transform: scale(1.05);
-} */
+}
 
 .card_name {
   font-size: 1.2rem;
-  font-weight: 700;
+}
+
+.card_category {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 80%;
+  border-radius: 2rem;
 }
 
 .card_name_category {
@@ -190,6 +198,10 @@
 
 .about_card_follow svg {
   font-size: 5rem;
+}
+
+.about_address {
+  color: #bbbbbb;
 }
 
 /* Contact */

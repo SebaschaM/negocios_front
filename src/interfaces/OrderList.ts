@@ -5,6 +5,7 @@ export interface OrderList {
   description: string;
   idOrder: number;
   idProduct: number;
+  url: string;
   name: string;
   price: number;
   provider_id: number;
