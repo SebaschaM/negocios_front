@@ -32,13 +32,21 @@ ChartJS.register(
 );
 
 function Dashboard() {
+  const [number1, setNumber1] = useState<number>(0);
+  const [number2, setNumber2] = useState<number>(0);
   const [dataGrap1, setDataGrap1] = useState<number[]>([]);
   const [dataGrap2, setDataGrap2] = useState<number[]>([]);
   const [dataGrap3, setDataGrap3] = useState<number[]>([]);
   const [dataGrap4, setDataGrap4] = useState<number[]>([]);
 
-  const { getDataGraph1, getDataGraph2, getDataGraph3, getDataGraph4 } =
-    useDashboard();
+  const {
+    getDataNumber1,
+    getDataNumber2,
+    getDataGraph1,
+    getDataGraph2,
+    getDataGraph3,
+    getDataGraph4,
+  } = useDashboard();
 
   const labels = [
     "BARRA DE COBRE",
@@ -127,6 +135,8 @@ function Dashboard() {
   }, []);
 
   const getDataGraps = async () => {
+    const dataNumber1 = await getDataNumber1();
+    const dataNumber2 = await getDataNumber2();
     const data1 = await getDataGraph1();
     const data2 = await getDataGraph2();
     const data3 = await getDataGraph3();
@@ -164,6 +174,8 @@ function Dashboard() {
     setDataGrap2(formattedData2);
     setDataGrap3(formattedData3);
     setDataGrap4(formattedData4);
+    setNumber1(dataNumber1[0].total);
+    setNumber2(dataNumber2[0].cantidad);
 
     if (formattedData1.length > 0) {
       setData({
@@ -220,8 +232,6 @@ function Dashboard() {
     }
   };
 
-  console.log(dataGrap2);
-
   return (
     <div className={styles.wrapper}>
       <div className={styles.bar}>
@@ -235,14 +245,18 @@ function Dashboard() {
       <div className={styles.content}>
         <h1>Dashboard</h1>
         <div className={styles.content_cards_number}>
-          <div className={styles.content_card_number}>
-            <h3>Total de ventas</h3>
-            <p>50</p>
-          </div>
-          <div className={styles.content_card_number}>
-            <h3>Cantidad total de productos vendidos</h3>
-            <p>60</p>
-          </div>
+          {number1 !== 0 && (
+            <>
+              <div className={styles.content_card_number}>
+                <h3>Total de ventas</h3>
+                <p>S/ {number1.toFixed(2)}</p>
+              </div>
+              <div className={styles.content_card_number}>
+                <h3>Cantidad total de productos vendidos</h3>
+                <p>{number2}</p>
+              </div>
+            </>
+          )}
         </div>
 
         {/* Chartjs */}
