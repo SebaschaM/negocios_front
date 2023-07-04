@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import {
   Cart,
+  Dashboard,
   Home,
   Login,
   Order,
@@ -20,6 +21,7 @@ export const AppRouter = () => {
         <Route path="/cart" element={<Cart />} />
         <Route path="/orders" element={<Order />} />
         <Route path="/profile" element={<Profile />} />
+        <Route path="/admin/dashboard" element={<Dashboard />} />
       </Routes>
     </BrowserRouter>
   );

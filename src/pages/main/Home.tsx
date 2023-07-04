@@ -1,6 +1,5 @@
 import { CardProduct, Footer, Header } from "../../components";
 import {
-  BiPlus,
   BiLocationPlus,
   BiCalendar,
   BiPhone,
