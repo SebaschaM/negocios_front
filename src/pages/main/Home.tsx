@@ -15,6 +15,8 @@ import { useEffect, useState } from "react";
 import { Category, Product } from "../../interfaces";
 import useFetch from "../../hook/useFetch";
 import { Link } from "react-router-dom";
+import { useForm } from "react-hook-form";
+import { sendEmailContact } from "../../utils/sendMailContact";
 // import { Link } from "react-router-dom";
 
 function Home() {
@@ -27,6 +29,20 @@ function Home() {
   const { getCategoryList, getListProducts } = useFetch();
   const notify = () =>
     toast.success("Producto agregado al carrito", {
+      position: "top-right",
+      autoClose: 3000,
+      hideProgressBar: true,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "colored",
+    });
+
+  const { register, handleSubmit, reset } = useForm();
+
+  const notify2 = () =>
+    toast.success("Email enviado correctamente", {
       position: "top-right",
       autoClose: 3000,
       hideProgressBar: true,
@@ -50,6 +66,12 @@ function Home() {
   const handleListProducts = async () => {
     const data = await getListProducts();
     setProducts(data);
+  };
+
+  const onSubmitContact = async (data: any) => {
+    await sendEmailContact(data);
+    notify2();
+    reset();
   };
 
   return (
@@ -207,24 +229,27 @@ function Home() {
       <section className={styles.contact}>
         <h2>Contactanos</h2>
         <div className={styles.contact_wrapper}>
-          <form className={styles.contact_form}>
+          <form
+            className={styles.contact_form}
+            onSubmit={handleSubmit(onSubmitContact)}
+          >
             <div className={styles.contact_form_group}>
               <label>Nombres</label>
-              <input type="text" />
+              <input type="text" {...register("fullname")} />
             </div>
             <div className={styles.contact_form_group}>
               <label>Email</label>
-              <input type="text" />
+              <input type="text" {...register("email")} />
             </div>
             <div className={styles.contact_form_group}>
               <label>Telefono</label>
-              <input type="text" />
+              <input type="text" {...register("phone")} />
             </div>
             <div className={styles.contact_form_group}>
               <label>Mensaje</label>
-              <textarea cols={30} rows={10}></textarea>
+              <textarea cols={30} rows={10} {...register("message")}></textarea>
             </div>
-            <button>Enviar Mensaje</button>
+            <button type="submit">Enviar Mensaje</button>
           </form>
 
           <div className={styles.contact_comment}>

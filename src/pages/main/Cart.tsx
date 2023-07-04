@@ -103,6 +103,9 @@ function Cart() {
         description: "Description",
         client_id: idUser.id,
         product_id: product.product_id,
+        fullname: idUser.fullname,
+        email: idUser.email,
+        productname: product.product_name,
       });
       reset();
       clearCart();
