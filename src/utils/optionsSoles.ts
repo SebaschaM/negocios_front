@@ -1,7 +1,6 @@
 import formatNumberToSoles from "./formatNumberToSoles";
 
 export const optionsSoles = {
-  responsive: true,
   plugins: {
     legend: {
       position: "top" as const,
@@ -22,7 +21,6 @@ export const optionsSoles = {
 };
 
 export const optionsUnity = {
-  responsive: true,
   plugins: {
     legend: {
       position: "top" as const,
@@ -35,7 +33,6 @@ export const optionsUnity = {
 };
 
 export const optionsProvider = {
-  responsive: true,
   plugins: {
     legend: {
       position: "top" as const,

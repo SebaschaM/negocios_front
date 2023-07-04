@@ -49,20 +49,20 @@ function Dashboard() {
   } = useDashboard();
 
   const labels = [
-    "BARRA DE COBRE",
-    "CEMENTO",
+    "FIERRO DE CONSTRUCCIÓN",
+    "CEMENTOS",
     "ALAMBRES",
-    "TUBERIA PVC",
+    "TUBOS PVC",
     "CALAMINAS",
-    "LADRILLO",
+    "LADRILLOS",
   ];
 
   const labels2 = [
     "ACEROS AREQUIPA",
-    "BELGO 60",
     "INKAFERRO",
-    "CEMENTO SOL",
-    "ARAGCU PERU",
+    "LARK",
+    "MEXICANO SAC",
+    "IMPORTADO BRAZILERO SAC",
     "CEMENTO APU",
     "CEMENTO ANDINO",
     "MATUSITA",
@@ -141,6 +141,8 @@ function Dashboard() {
     const data2 = await getDataGraph2();
     const data3 = await getDataGraph3();
     const data4 = await getDataGraph4();
+    const fullnameArray = data4.map((item) => item.fullname);
+    console.log(data4);
 
     const formattedData1 = labels.map((label) => {
       const item = data1.find(
@@ -149,11 +151,11 @@ function Dashboard() {
       return item ? item.ingresos : 0;
     });
 
-    const formattedData2 = labels2.map((label) => {
+    const formattedData2 = labels.map((label) => {
       const item = data2.find(
-        (item: any) => item.marca.toLowerCase() === label.toLowerCase()
+        (item: any) => item.categoria.toLowerCase() === label.toLowerCase()
       );
-      return item ? item.cantidad_vendida : 0;
+      return item ? Number(item.cantidad_vendida) : 0;
     });
 
     const formattedData3 = labels2.map((label) => {
@@ -163,12 +165,16 @@ function Dashboard() {
       return item ? item.ingresos : 0;
     });
 
-    const formattedData4 = labels3.map((label) => {
+    const labelsNames = fullnameArray;
+
+    const formattedData4 = labelsNames.map((label) => {
       const item = data4.find(
         (item: any) => item.fullname.toLowerCase() === label.toLowerCase()
       );
       return item ? item.ingresos : 0;
     });
+
+    console.log(formattedData4);
 
     setDataGrap1(formattedData1);
     setDataGrap2(formattedData2);
@@ -218,7 +224,7 @@ function Dashboard() {
       });
 
       setData4({
-        labels: labels3,
+        labels: fullnameArray,
         datasets: [
           {
             label: "Compras anuales",

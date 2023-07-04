@@ -30,8 +30,6 @@ function Login() {
       const userData = await loginUser(email, password);
       const { idClient, fullname, phone, dni } = userData;
 
-      console.log(userData);
-
       const user = {
         id: idClient,
         email: email,
@@ -43,7 +41,11 @@ function Login() {
       notify("Inicio de sesión exitoso", "success");
       localStorage.setItem("user", JSON.stringify(user));
       setTimeout(() => {
-        navigate("/"); // Redirect to the home page after successful login
+        if (userData.role === 1) {
+          navigate("/admin/dashboard");
+        } else {
+          navigate("/"); // Redirect to the home page after successful login
+        }
       }, 1500);
     } catch (error) {
       if (error instanceof Error) {
