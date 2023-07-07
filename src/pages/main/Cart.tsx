@@ -28,7 +28,11 @@ function Cart() {
   const addCountOneProduct = useAtom(addOneToCountAtom)[1];
   const minusountOneProduct = useAtom(minuOneToCountAtom)[1];
   const clearCart = useAtom(clearCartAtom)[1];
-  const [idUser, setIdUser] = useState<{ id: number }>({ id: 0 });
+  const [user, setUser] = useState<{
+    idUser: number;
+    fullname: string;
+    email: string;
+  }>({ idUser: 0, fullname: "", email: "" });
   const { addOrder } = useOrder();
   const [cartUpdated, setCartUpdated] = useState(false);
   const {
@@ -48,7 +52,7 @@ function Cart() {
   useEffect(() => {
     getLocalStorageCart();
     setCartUpdated(false);
-    setIdUser(JSON.parse(localStorage.getItem("user") ?? "0"));
+    setUser(JSON.parse(localStorage.getItem("user") ?? "0"));
   }, [true, cartUpdated]);
 
   const getLocalStorageCart = () => {
@@ -95,16 +99,17 @@ function Cart() {
 
     for (const product of cart) {
       const response = await addOrder({
+        serial: 1,
         subtotal: product.subtotal,
         address: data.direction,
         total: product.priceTotal,
         quantity: product.quantity,
         purchase_date: new Date().toDateString(),
         description: "Description",
-        client_id: idUser.id,
+        client_id: user.idUser,
         product_id: product.product_id,
-        fullname: idUser.fullname,
-        email: idUser.email,
+        fullname: user.fullname,
+        email: user.email,
         productname: product.product_name,
       });
       reset();

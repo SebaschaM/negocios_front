@@ -126,6 +126,7 @@ function Products() {
                   <table>
                     <thead>
                       <tr>
+                        <td className={styles.modal_description_td}>Marca:</td>
                         <td className={styles.modal_description_td}>Stock:</td>
                         <td className={styles.modal_description_td}>
                           Precio unitario:
@@ -134,6 +135,9 @@ function Products() {
                     </thead>
                     <tbody>
                       <tr>
+                        <td className={styles.modal_description_tbody}>
+                          {modalProduct.product.product_brand}
+                        </td>
                         <td className={styles.modal_description_tbody}>
                           {modalProduct.product.stock}
                         </td>

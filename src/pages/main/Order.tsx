@@ -13,7 +13,7 @@ function Order() {
 
   useEffect(() => {
     const userData = JSON.parse(localStorage.getItem("user") ?? "{}");
-    getAllOrders(userData.id);
+    getAllOrders(userData.idUser);
   }, []);
 
   const getAllOrders = async (id: number) => {

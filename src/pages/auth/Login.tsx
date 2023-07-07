@@ -28,18 +28,8 @@ function Login() {
     const password = e.currentTarget.password.value;
     try {
       const userData = await loginUser(email, password);
-      const { idClient, fullname, phone, dni } = userData;
-
-      const user = {
-        id: idClient,
-        email: email,
-        fullname: fullname,
-        phone: phone,
-        dni: dni,
-        password: password,
-      };
       notify("Inicio de sesión exitoso", "success");
-      localStorage.setItem("user", JSON.stringify(user));
+      localStorage.setItem("user", JSON.stringify(userData));
       setTimeout(() => {
         if (userData.role === 1) {
           navigate("/admin/dashboard");

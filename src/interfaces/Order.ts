@@ -3,6 +3,7 @@
 // Order_product: idOrder_product, order_id, product_id
 
 export interface Order {
+  serial: any;
   subtotal: number;
   address: string;
   total: number;
@@ -11,4 +12,7 @@ export interface Order {
   description: string;
   client_id: number;
   product_id: number;
+  fullname: string;
+  email: string;
+  productname: string;
 }

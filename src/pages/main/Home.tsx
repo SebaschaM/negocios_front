@@ -86,7 +86,7 @@ function Home() {
         <h2>Nuestras Categorías</h2>
         <div className={styles.cards}>
           {category.map((category) => (
-            <div className={styles.card}>
+            <div key={category.idCategory} className={styles.card}>
               <img
                 src={category.url}
                 className={styles.card_category}
