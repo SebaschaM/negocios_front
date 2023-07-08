@@ -106,7 +106,7 @@ function Cart() {
         quantity: product.quantity,
         purchase_date: new Date().toDateString(),
         description: "Description",
-        client_id: user.idUser,
+        user_id: user.idUser,
         product_id: product.product_id,
         fullname: user.fullname,
         email: user.email,

@@ -10,7 +10,7 @@ export interface Order {
   quantity: number;
   purchase_date: string;
   description: string;
-  client_id: number;
+  user_id: number;
   product_id: number;
   fullname: string;
   email: string;
