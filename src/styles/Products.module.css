@@ -17,7 +17,7 @@
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   column-gap: 2rem;
-  row-gap: 2rem;
+  row-gap: 2.5rem;
 }
 
 .cards_container {
@@ -34,6 +34,7 @@
   flex-direction: column;
   width: 65%;
   cursor: pointer;
+  row-gap: 1rem;
 }
 
 .card:hover {
