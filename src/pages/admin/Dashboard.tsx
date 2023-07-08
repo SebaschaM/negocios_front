@@ -36,7 +36,7 @@ function Dashboard() {
   const [number2, setNumber2] = useState<number>(0);
   const [dataGrap1, setDataGrap1] = useState<number[]>([]);
   const [dataGrap2, setDataGrap2] = useState<number[]>([]);
-  const [dataGrap3, setDataGrap3] = useState<number[]>([]);
+  // const [dataGrap3, setDataGrap3] = useState<number[]>([]);
   const [dataGrap4, setDataGrap4] = useState<number[]>([]);
 
   const {
@@ -44,18 +44,11 @@ function Dashboard() {
     getDataNumber2,
     getDataGraph1,
     getDataGraph2,
-    getDataGraph3,
+    // getDataGraph3,
     getDataGraph4,
   } = useDashboard();
 
-  const labels = [
-    "FIERRO DE CONSTRUCCIÓN",
-    "CEMENTOS",
-    "ALAMBRES",
-    "TUBOS PVC",
-    "CALAMINAS",
-    "LADRILLOS",
-  ];
+  const labels = ["BARRA DE CONSTRUCCION", "CEMENTO", "ALAMBRE", "TUBERIA PVC"];
 
   const labels2 = [
     "ACEROS AREQUIPA",
@@ -109,7 +102,7 @@ function Dashboard() {
     datasets: [
       {
         label: "Ingresos por marca",
-        data: dataGrap3,
+        // data: dataGrap3,
         backgroundColor: ["#364b59"],
         borderColor: ["#364b59"],
         borderWidth: 1,
@@ -139,9 +132,9 @@ function Dashboard() {
     const dataNumber2 = await getDataNumber2();
     const data1 = await getDataGraph1();
     const data2 = await getDataGraph2();
-    const data3 = await getDataGraph3();
+    // const data3 = await getDataGraph3();
     const data4 = await getDataGraph4();
-    const fullnameArray = data4.map((item) => item.fullname);
+    const fullnameArray = data4.map((item: any) => item.fullname);
     console.log(data4);
 
     const formattedData1 = labels.map((label) => {
@@ -158,16 +151,16 @@ function Dashboard() {
       return item ? Number(item.cantidad_vendida) : 0;
     });
 
-    const formattedData3 = labels2.map((label) => {
-      const item = data3.find(
-        (item: any) => item.marca.toLowerCase() === label.toLowerCase()
-      );
-      return item ? item.ingresos : 0;
-    });
+    // const formattedData3 = labels2.map((label) => {
+    //   const item = data3.find(
+    //     (item: any) => item.marca.toLowerCase() === label.toLowerCase()
+    //   );
+    //   return item ? item.ingresos : 0;
+    // });
 
     const labelsNames = fullnameArray;
 
-    const formattedData4 = labelsNames.map((label) => {
+    const formattedData4 = labelsNames.map((label: any) => {
       const item = data4.find(
         (item: any) => item.fullname.toLowerCase() === label.toLowerCase()
       );
@@ -178,7 +171,7 @@ function Dashboard() {
 
     setDataGrap1(formattedData1);
     setDataGrap2(formattedData2);
-    setDataGrap3(formattedData3);
+    // setDataGrap3(formattedData3);
     setDataGrap4(formattedData4);
     setNumber1(dataNumber1[0].total);
     setNumber2(dataNumber2[0].cantidad);
@@ -210,18 +203,18 @@ function Dashboard() {
         ],
       });
 
-      setData3({
-        labels: labels2,
-        datasets: [
-          {
-            label: "Ingresos por marca",
-            data: formattedData3,
-            backgroundColor: ["#364b59"],
-            borderColor: ["#364b59"],
-            borderWidth: 1,
-          },
-        ],
-      });
+      // setData3({
+      //   labels: labels2,
+      //   datasets: [
+      //     {
+      //       label: "Ingresos por marca",
+      //       data: formattedData3,
+      //       backgroundColor: ["#364b59"],
+      //       borderColor: ["#364b59"],
+      //       borderWidth: 1,
+      //     },
+      //   ],
+      // });
 
       setData4({
         labels: fullnameArray,
@@ -275,9 +268,9 @@ function Dashboard() {
               <div className={styles.chart}>
                 <Bar options={optionsUnity} data={data2} />
               </div>
-              <div className={styles.chart}>
+              {/* <div className={styles.chart}>
                 <Bar options={optionsProvider} data={data3} />
-              </div>
+              </div> */}
               <div className={styles.chart}>
                 <Bar options={optionsProvider} data={data4} />
               </div>

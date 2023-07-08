@@ -62,7 +62,7 @@ const useDashboard = () => {
     getDataNumber2,
     getDataGraph1,
     getDataGraph2,
-    getDataGraph3,
+    // getDataGraph3,
     getDataGraph4,
   };
 };
