@@ -57,13 +57,23 @@ const useDashboard = () => {
     }
   };
 
+  const generateExcelDB = async () => {
+    try {
+      const response = await TrefisaAPI.get(`dashboard/generateExcel`);
+      return response.data;
+    } catch (error) {
+      throw new Error("Error");
+    }
+  };
+
   return {
     getDataNumber1,
     getDataNumber2,
     getDataGraph1,
     getDataGraph2,
-    // getDataGraph3,
+    getDataGraph3,
     getDataGraph4,
+    generateExcelDB,
   };
 };
 

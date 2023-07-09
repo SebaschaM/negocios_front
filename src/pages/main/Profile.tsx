@@ -10,7 +10,7 @@ interface UserData {
   fullname?: string;
   email?: string;
   phone?: string;
-  dni?: string;
+  dni_ruc?: string;
   password?: string;
 }
 
@@ -24,7 +24,7 @@ function Profile() {
     fullname: "",
     email: "",
     phone: "",
-    dni: "",
+    dni_ruc: "",
   });
 
   const handleLogout = () => {
@@ -46,7 +46,7 @@ function Profile() {
         userData.fullname &&
         userData.email &&
         userData.phone &&
-        userData.dni &&
+        userData.dni_ruc &&
         userData.password
       ) {
         const response = await updateProfile(userData.id.toString(), userData);
@@ -161,7 +161,7 @@ function Profile() {
                     type="text"
                     readOnly
                     disabled={true}
-                    value={userData.dni || ""}
+                    value={userData.dni_ruc || ""}
                     className={styles.input_info}
                   />
                 </div>

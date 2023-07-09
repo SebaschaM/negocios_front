@@ -11,6 +11,24 @@
   justify-content: start;
   row-gap: 2rem;
   height: 100vh;
+  position: relative;
+}
+
+.button_exit {
+  position: absolute;
+  bottom: 5rem;
+  font-size: 1.5rem;
+  display: flex;
+  align-items: center;
+  column-gap: 1rem;
+  width: 15rem;
+  padding: 1rem;
+  transition: all 0.3s ease-in-out;
+}
+
+.button_exit:hover {
+  background-color: red;
+  color: #fff;
 }
 
 .bar img {
@@ -101,7 +119,7 @@
 .charts {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  justify-items: center;
+  justify-items: start;
   justify-content: center;
   align-items: center;
   row-gap: 5rem;
