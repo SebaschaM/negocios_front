@@ -2,7 +2,7 @@
 import axios from "axios";
 
 const TrefisaAPI = axios.create({
-  baseURL: "http://localhost:3000/api/",
+  baseURL: "https://negocios-back.onrender.com/api/",
 });
 
 export default TrefisaAPI;

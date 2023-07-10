@@ -55,7 +55,7 @@ export const minuOneToCountAtom = atom(null, (get, set, productId: number) => {
   set(cartAtom, cart);
 });
 
-export const clearCartAtom = atom(null, (get, set) => {
+export const clearCartAtom = atom(null, (_get, set) => {
   const updatedCart: OrderCart[] = [];
   localStorage.removeItem("cart");
   set(cartAtom, updatedCart);
