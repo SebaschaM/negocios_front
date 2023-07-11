@@ -5,6 +5,7 @@ import { BiExit, BiSolidDashboard } from "react-icons/bi";
 
 import { useEffect, useState } from "react";
 import { Bar } from "react-chartjs-2";
+
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -344,7 +345,7 @@ function Dashboard() {
           <Link to="/admin/dashboard" className={styles.link}>
             <BiSolidDashboard /> Dashboard
           </Link>
-          <button onClick={generateExcel}>Generar Excel</button>
+          <button onClick={generateExcel} className={styles.btnExcel}>Generar Excel</button>
         </div>
         <Link
           className={styles.button_exit}
