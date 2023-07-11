@@ -71,13 +71,13 @@
   width: 15rem;
   color: #fff;
   background: #09bd09;
-  border: 1px solid transparent;
+  border: 2px solid transparent;
   cursor: pointer;
   transition: all 0.3s ease-in-out;
 }
 
 .btnExcel:hover {
-  border: 1px solid #09bd09;
+  border: 2px solid #09bd09;
   background: transparent;
   color: #000;
 }
